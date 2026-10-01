@@ -3,20 +3,19 @@
    ========================================================= */
 
 const SUBJECTS = [
-  { name: "বাংলা-১", tab: "gold", icon: "📖" },
-  { name: "ইংরেজি-১", tab: "teal", icon: "✍️" },
-  { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১", tab: "rust", icon: "💻" },
-  { name: "ব্যবসায় গণিত ও পরিসংখ্যান", tab: "gold", icon: "🧮" },
-  { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১", tab: "teal", icon: "💰" },
-  { name: "অর্থনীতি ও বাণিজ্যিক ভূগোল", tab: "rust", icon: "🌍" },
-  { name: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১", tab: "gold", icon: "🏢" },
-  { name: "মার্কেটিং নীতি ও প্রয়োগ-১", tab: "teal", icon: "📣" },
-  { name: "ডিজিটাল টেকনোলজি ইন বিজনেস-১", tab: "rust", icon: "🖥️" },
-  { name: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১", tab: "gold", icon: "👥" },
+  { name: "বাংলা-১", tab: "gold", icon: "📖", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-%E0%A7%A7.txt" },
+  { name: "ইংরেজি-১", tab: "teal", icon: "✍️", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%87%E0%A6%82%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF-%E0%A7%A7.txt" },
+  { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১", tab: "rust", icon: "💻", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%95%E0%A6%AE%E0%A7%8D%E0%A6%AA%E0%A6%BF%E0%A6%89%E0%A6%9F%E0%A6%BE%E0%A6%B0%20%E0%A6%85%E0%A6%AB%E0%A6%BF%E0%A6%B8%20%E0%A6%85%E0%A6%AF%E0%A6%BE%E0%A6%AA%E0%A7%8D%E0%A6%B2%E0%A6%BF%E0%A6%95%E0%A7%87%E0%A6%B6%E0%A6%A8-%E0%A7%A7.txt" },
+  { name: "ব্যবসায় গণিত ও পরিসংখ্যান", tab: "gold", icon: "🧮", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AC%E0%A7%8D%E0%A6%AF%E0%A6%AC%E0%A6%B8%E0%A6%BE%E0%A6%AF%E0%A6%BC%20%E0%A6%97%E0%A6%A3%E0%A6%BF%E0%A6%A4%20%E0%A6%93%20%E0%A6%AA%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A6%82%E0%A6%96%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8.txt" },
+  { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১", tab: "teal", icon: "💰", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%B9%E0%A6%BF%E0%A6%B8%E0%A6%BE%E0%A6%AC%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A7%8D%E0%A6%9E%E0%A6%BE%E0%A6%A8%20%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF%20%E0%A6%93%20%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%AF%E0%A6%BC%E0%A7%8B%E0%A6%97-%E0%A7%A7.txt" },
+  { name: "অর্থনীতি ও বাণিজ্যিক ভূগোল", tab: "rust", icon: "🌍", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%85%E0%A6%B0%E0%A7%8D%E0%A6%A5%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF%20%E0%A6%93%20%E0%A6%AC%E0%A6%BE%E0%A6%A3%E0%A6%BF%E0%A6%9C%E0%A7%8D%E0%A6%AF%E0%A6%BF%E0%A6%95%20%E0%A6%AD%E0%A7%82%E0%A6%97%E0%A6%B0%E0%A6%BE%E0%A6%B2.txt" },
+  { name: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১", tab: "gold", icon: "🏢", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AC%E0%A7%8D%E0%A6%AF%E0%A6%AC%E0%A6%B8%E0%A6%BE%E0%A6%AF%E0%A6%BC%20%E0%A6%B8%E0%A6%82%E0%A6%97%E0%A6%A0%E0%A6%A8%20%E0%A6%93%20%E0%A6%AC%E0%A7%8D%E0%A6%AF%E0%A6%AC%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%BE%E0%A6%AA%E0%A6%A8%E0%A6%BE-%E0%A7%A7.txt" },
+  { name: "মার্কেটিং নীতি ও প্রয়োগ-১", tab: "teal", icon: "📣", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AE%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%95%E0%A7%8F%E0%A6%9F%E0%A6%BF%E0%A6%82%20%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF%20%E0%A6%93%20%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%AF%E0%A6%BC%E0%A7%8B%E0%A6%97-%E0%A7%A7.txt" },
+  { name: "ডিজিটাল টেকনোলজি ইন বিজনেস-১", tab: "rust", icon: "🖥️", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%A1%E0%A6%BF%E0%A6%9C%E0%A6%BF%E0%A6%9F%E0%A6%BE%E0%A6%B2%20%E0%A6%9F%E0%A7%87%E0%A6%95%E0%A6%A8%E0%A7%8B%E0%A6%B2%E0%A6%9C%E0%A6%BF%20%E0%A6%87%E0%A6%A8%20%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A6%A8%E0%A7%87%E0%A6%B8-%E0%A7%A7.txt" },
+  { name: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১", tab: "gold", icon: "👥", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%B9%E0%A6%BF%E0%A6%89%E0%A6%AE%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%20%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A6%AE%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%9F-%E0%A7%A7.txt" }
 ];
 
 SUBJECTS.forEach((s, i) => {
-  s.file = `https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/${encodeURIComponent(s.name)}.txt`;
   s.domId = `count-${i}`;
 });
 
@@ -24,17 +23,15 @@ function escapeHtml(s){
   return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-// Normal link to direct/raw/embed format converter helper
+// Smart link converter for GitHub blob, Google Drive, etc.
 function smartUrlConverter(url) {
   let cleanUrl = url.trim();
-  // Google Drive conversion
   if (cleanUrl.includes("drive.google.com")) {
     let match = cleanUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
       return `https://drive.google.com/uc?export=view&id=${match[1]}`;
     }
   }
-  // GitHub blob to raw conversion
   if (cleanUrl.includes("github.com") && cleanUrl.includes("/blob/")) {
     return cleanUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/");
   }
@@ -74,37 +71,8 @@ function parsePosts(raw){
   return posts;
 }
 
-const BN_DIGITS = "০১২৩৪৫৬৭৮৯";
-function bnToEnDigits(s){ return s.replace(/[০-৯]/g, d => BN_DIGITS.indexOf(d)); }
-const BN_MONTHS = {"জানুয়ারি":0,"ফেব্রুয়ারি":1,"মার্চ":2,"এপ্রিল":3,"মে":4,"জুন":5,"জুলাই":6,"আগস্ট":7,"সেপ্টেম্বর":8,"অক্টোবর":9,"নভেম্বর":10,"ডিসেম্বর":11};
-
-function parseFlexibleDate(d){
-  if(!d) return null;
-  const s = bnToEnDigits(d.trim());
-  const iso = Date.parse(s);
-  if(!isNaN(iso)) return iso;
-  const m = s.match(/(\d{1,2})\s+([^\d\s]+)\s+(\d{4})/);
-  if(m){
-    const day = +m[1], year = +m[3];
-    const monthName = Object.keys(BN_MONTHS).find(k => d.includes(k));
-    const month = monthName ? BN_MONTHS[monthName] : null;
-    if(month != null) return new Date(year, month, day).getTime();
-  }
-  return null;
-}
-
-function sortPostsLatestFirst(posts){
-  return posts
-    .map((post,i) => ({ post, i, ts: parseFlexibleDate(post.date) }))
-    .sort((a,b) => {
-      if(a.ts != null && b.ts != null) return b.ts - s => b.ts - a.ts; // latest first
-      return b.ts - a.ts;
-    })
-    .map(x => x.post);
-}
-
 function mediaThumbHtml(kind, src, index){
-  if(kind === "img") return `<div class="media-thumb" data-kind="img" data-src="${escapeHtml(src)}"><img src="${escapeHtml(src)}" loading="eager" fetchpriority="high" alt="ছবি ${index+1}"></div>`;
+  if(kind === "img") return `<div class="media-thumb" data-kind="img" data-src="${escapeHtml(src)}"><img src="${escapeHtml(src)}" loading="eager" alt="ছবি ${index+1}"></div>`;
   return `<div class="media-thumb" data-kind="vid" data-src="${escapeHtml(src)}"><video src="${escapeHtml(src)}" muted playsinline preload="metadata"></video><div class="media-play">▶</div></div>`;
 }
 
@@ -155,7 +123,7 @@ async function openPanel(subject){
   try{
     let posts = postCache[subject.name];
     if(!posts){
-      const res = await fetch(subject.file, {cache:"no-store"});
+      const res = await fetch(subject.url, {cache:"no-store"});
       if(!res.ok) throw new Error("not found");
       posts = parsePosts(await res.text());
       postCache[subject.name] = posts;
@@ -168,14 +136,14 @@ async function openPanel(subject){
   }catch(err){
     panelPosts.innerHTML = "";
     panelEmpty.hidden = false;
-    panelEmpty.textContent = "ফাইলটি লোড করতে সমস্যা হচ্ছে।";
+    panelEmpty.textContent = "ফাইলটি লোড করতে সমস্যা হচ্ছে। সঠিক লিংকে ফাইল আছে কিনা চেক করুন।";
   }
 }
 
 function closePanel(){ 
   panelOverlay.classList.remove("open"); 
   document.body.style.overflow = ""; 
-  panelPosts.innerHTML = ""; // Clear old content to keep memory free and website fast
+  panelPosts.innerHTML = "";
 }
 
 document.getElementById("panelClose").addEventListener("click", closePanel);
