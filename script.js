@@ -3,19 +3,20 @@
    ========================================================= */
 
 const SUBJECTS = [
-  { name: "বাংলা-১", tab: "gold", icon: "📖", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-%E0%A7%A7.txt" },
-  { name: "ইংরেজি-১", tab: "teal", icon: "✍️", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%87%E0%A6%82%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF-%E0%A7%A7.txt" },
-  { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১", tab: "rust", icon: "💻", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%95%E0%A6%AE%E0%A7%8D%E0%A6%AA%E0%A6%BF%E0%A6%89%E0%A6%9F%E0%A6%BE%E0%A6%B0%20%E0%A6%85%E0%A6%AB%E0%A6%BF%E0%A6%B8%20%E0%A6%85%E0%A6%AF%E0%A6%BE%E0%A6%AA%E0%A7%8D%E0%A6%B2%E0%A6%BF%E0%A6%95%E0%A7%87%E0%A6%B6%E0%A6%A8-%E0%A7%A7.txt" },
-  { name: "ব্যবসায় গণিত ও পরিসংখ্যান", tab: "gold", icon: "🧮", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AC%E0%A7%8D%E0%A6%AF%E0%A6%AC%E0%A6%B8%E0%A6%BE%E0%A6%AF%E0%A6%BC%20%E0%A6%97%E0%A6%A3%E0%A6%BF%E0%A6%A4%20%E0%A6%93%20%E0%A6%AA%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A6%82%E0%A6%96%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8.txt" },
-  { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১", tab: "teal", icon: "💰", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%B9%E0%A6%BF%E0%A6%B8%E0%A6%BE%E0%A6%AC%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A7%8D%E0%A6%9E%E0%A6%BE%E0%A6%A8%20%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF%20%E0%A6%93%20%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%AF%E0%A6%BC%E0%A7%8B%E0%A6%97-%E0%A7%A7.txt" },
-  { name: "অর্থনীতি ও বাণিজ্যিক ভূগোল", tab: "rust", icon: "🌍", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%85%E0%A6%B0%E0%A7%8D%E0%A6%A5%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF%20%E0%A6%93%20%E0%A6%AC%E0%A6%BE%E0%A6%A3%E0%A6%BF%E0%A6%9C%E0%A7%8D%E0%A6%AF%E0%A6%BF%E0%A6%95%20%E0%A6%AD%E0%A7%82%E0%A6%97%E0%A6%B0%E0%A6%BE%E0%A6%B2.txt" },
-  { name: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১", tab: "gold", icon: "🏢", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AC%E0%A7%8D%E0%A6%AF%E0%A6%AC%E0%A6%B8%E0%A6%BE%E0%A6%AF%E0%A6%BC%20%E0%A6%B8%E0%A6%82%E0%A6%97%E0%A6%A0%E0%A6%A8%20%E0%A6%93%20%E0%A6%AC%E0%A7%8D%E0%A6%AF%E0%A6%AC%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%BE%E0%A6%AA%E0%A6%A8%E0%A6%BE-%E0%A7%A7.txt" },
-  { name: "মার্কেটিং নীতি ও প্রয়োগ-১", tab: "teal", icon: "📣", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%AE%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%95%E0%A7%8F%E0%A6%9F%E0%A6%BF%E0%A6%82%20%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF%20%E0%A6%93%20%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%AF%E0%A6%BC%E0%A7%8B%E0%A6%97-%E0%A7%A7.txt" },
-  { name: "ডিজিটাল টেকনোলজি ইন বিজনেস-১", tab: "rust", icon: "🖥️", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%A1%E0%A6%BF%E0%A6%9C%E0%A6%BF%E0%A6%9F%E0%A6%BE%E0%A6%B2%20%E0%A6%9F%E0%A7%87%E0%A6%95%E0%A6%A8%E0%A7%8B%E0%A6%B2%E0%A6%9C%E0%A6%BF%20%E0%A6%87%E0%A6%A8%20%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A6%A8%E0%A7%87%E0%A6%B8-%E0%A7%A7.txt" },
-  { name: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১", tab: "gold", icon: "👥", url: "https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/%E0%A6%B9%E0%A6%BF%E0%A6%89%E0%A6%AE%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%20%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A6%AE%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%9F-%E0%A7%A7.txt" }
+  { name: "বাংলা-১", tab: "gold", icon: "📖", file: "বাংলা-১.txt" },
+  { name: "ইংরেজি-১", tab: "teal", icon: "✍️️", file: "ইংরেজি-১.txt" },
+  { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১", tab: "rust", icon: "💻", file: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১.txt" },
+  { name: "ব্যবসায় গণিত ও পরিসংখ্যান", tab: "gold", icon: "🧮", file: "ব্যবসায় গণিত ও পরিসংখ্যান.txt" },
+  { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১", tab: "teal", icon: "💰", file: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১.txt" },
+  { name: "অর্থনীতি ও বাণিজ্যিক ভূগোল", tab: "rust", icon: "🌍", file: "অর্থনীতি ও বাণিজ্যিক ভূগোল.txt" },
+  { name: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১", tab: "gold", icon: "🏢", file: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১.txt" },
+  { name: "মার্কেটিং নীতি ও প্রয়োগ-১", tab: "teal", icon: "📣", file: "মার্কেটিং নীতি ও প্রয়োগ-১.txt" },
+  { name: "ডিজিটাল টেকনোলজি ইন বিজনেস-১", tab: "rust", icon: "🖥️", file: "ডিজিটাল টেকনোলজি ইন বিজনেস-১.txt" },
+  { name: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১", tab: "gold", icon: "👥", file: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১.txt" }
 ];
 
 SUBJECTS.forEach((s, i) => {
+  s.url = `https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/${encodeURIComponent(s.file)}`;
   s.domId = `count-${i}`;
 });
 
@@ -23,7 +24,6 @@ function escapeHtml(s){
   return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-// Smart link converter for GitHub blob, Google Drive, etc.
 function smartUrlConverter(url) {
   let cleanUrl = url.trim();
   if (cleanUrl.includes("drive.google.com")) {
@@ -136,7 +136,7 @@ async function openPanel(subject){
   }catch(err){
     panelPosts.innerHTML = "";
     panelEmpty.hidden = false;
-    panelEmpty.textContent = "ফাইলটি লোড করতে সমস্যা হচ্ছে। সঠিক লিংকে ফাইল আছে কিনা চেক করুন।";
+    panelEmpty.textContent = "দুঃখিত, এই ফাইলের লিংকটি পাওয়া যায়নি। গিটহাবে ফাইলটি সঠিক নামে আছে কিনা চেক করুন।";
   }
 }
 
