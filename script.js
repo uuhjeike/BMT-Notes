@@ -1,41 +1,46 @@
 /* =========================================================
    BMT NOTES — script.js
-   Content lives in plain .txt files under /data, one per subject,
-   named exactly after the subject. Edit a file, the post shows up —
-   no code to touch. See README.md for the full syntax.
    ========================================================= */
 
 const SUBJECTS = [
-  { name: "বাংলা-১",                            tab: "gold", icon: "📖" },
-  { name: "ইংরেজি-১",                            tab: "teal", icon: "✍️" },
-  { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১",        tab: "rust", icon: "💻" },
-  { name: "ব্যবসায় গণিত ও পরিসংখ্যান",            tab: "gold", icon: "🧮" },
-  { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১",         tab: "teal", icon: "💰" },
-  { name: "অর্থনীতি ও বাণিজ্যিক ভূগোল",           tab: "rust", icon: "🌍" },
-  { name: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১",        tab: "gold", icon: "🏢" },
-  { name: "মার্কেটিং নীতি ও প্রয়োগ-১",            tab: "teal", icon: "📣" },
-  { name: "ডিজিটাল টেকনোলজি ইন বিজনেস-১",         tab: "rust", icon: "🖥️" },
-  { name: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১",       tab: "gold", icon: "👥" },
+  { name: "বাংলা-১", tab: "gold", icon: "📖" },
+  { name: "ইংরেজি-১", tab: "teal", icon: "✍️" },
+  { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১", tab: "rust", icon: "💻" },
+  { name: "ব্যবসায় গণিত ও পরিসংখ্যান", tab: "gold", icon: "🧮" },
+  { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১", tab: "teal", icon: "💰" },
+  { name: "অর্থনীতি ও বাণিজ্যিক ভূগোল", tab: "rust", icon: "🌍" },
+  { name: "ব্যবসায় সংগঠন ও ব্যবস্থাপনা-১", tab: "gold", icon: "🏢" },
+  { name: "মার্কেটিং নীতি ও প্রয়োগ-১", tab: "teal", icon: "📣" },
+  { name: "ডিজিটাল টেকনোলজি ইন বিজনেস-১", tab: "rust", icon: "🖥️" },
+  { name: "হিউম্যান রিসোর্স ম্যানেজমেন্ট-১", tab: "gold", icon: "👥" },
 ];
+
 SUBJECTS.forEach((s, i) => {
-  s.file = `data/${encodeURIComponent(s.name)}.txt`;
+  s.file = `https://raw.githubusercontent.com/uuhjeike/BMT-Notes/main/${encodeURIComponent(s.name)}.txt`;
   s.domId = `count-${i}`;
 });
+
 function escapeHtml(s){
   return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-/* ---------------------------------------------------------
-   POST PARSER — each post sits between "-" lines:
-       -
-       DATE: ...
-       text...
-       IMG: url
-       -
-   Works whether there's a "-" on both sides of a post, only
-   before, only after, or several in a row. "#" lines are comments.
-   Tags (one per line, repeatable): DATE / IMG / VID / AUD / DRIVE / LINK
---------------------------------------------------------- */
+// Normal link to direct/raw/embed format converter helper
+function smartUrlConverter(url) {
+  let cleanUrl = url.trim();
+  // Google Drive conversion
+  if (cleanUrl.includes("drive.google.com")) {
+    let match = cleanUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+  }
+  // GitHub blob to raw conversion
+  if (cleanUrl.includes("github.com") && cleanUrl.includes("/blob/")) {
+    return cleanUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/");
+  }
+  return cleanUrl;
+}
+
 function parsePosts(raw){
   const rawLines = raw.split("\n");
   const blocks = []; let current = [];
@@ -53,14 +58,14 @@ function parsePosts(raw){
     for(const line of lines){
       const m = line.match(/^(DATE|IMG|VID|AUD|DRIVE|LINK)\s*:\s*(.+)$/i);
       if(!m){ post.text.push(line); continue; }
-      const tag = m[1].toUpperCase(); const val = m[2].trim();
+      const tag = m[1].toUpperCase(); const val = smartUrlConverter(m[2].trim());
       if(tag === "DATE") post.date = val;
       else if(tag === "IMG") post.images.push(val);
       else if(tag === "VID") post.videos.push(val);
       else if(tag === "AUD") post.audios.push(val);
       else {
         const lm = val.match(/^(\S+)\s*\((.+)\)\s*$/);
-        post.links.push({ url: lm?lm[1]:val, label: lm?lm[2]:(tag==="DRIVE"?"ড্রাইভ ফাইল":"লিংক"), kind: tag.toLowerCase() });
+        post.links.push({ url: lm?smartUrlConverter(lm[1]):val, label: lm?lm[2]:(tag==="DRIVE"?"ড্রাইভ ফাইল":"লিংক"), kind: tag.toLowerCase() });
       }
     }
     post.text = post.text.join("\n");
@@ -69,12 +74,10 @@ function parsePosts(raw){
   return posts;
 }
 
-/* Dated posts sort by actual date (newest first). Undated posts sort
-   by file position — since new posts go at the TOP of the file, the
-   lowest index is the most recently added, so it sorts first. */
 const BN_DIGITS = "০১২৩৪৫৬৭৮৯";
 function bnToEnDigits(s){ return s.replace(/[০-৯]/g, d => BN_DIGITS.indexOf(d)); }
 const BN_MONTHS = {"জানুয়ারি":0,"ফেব্রুয়ারি":1,"মার্চ":2,"এপ্রিল":3,"মে":4,"জুন":5,"জুলাই":6,"আগস্ট":7,"সেপ্টেম্বর":8,"অক্টোবর":9,"নভেম্বর":10,"ডিসেম্বর":11};
+
 function parseFlexibleDate(d){
   if(!d) return null;
   const s = bnToEnDigits(d.trim());
@@ -89,20 +92,19 @@ function parseFlexibleDate(d){
   }
   return null;
 }
+
 function sortPostsLatestFirst(posts){
   return posts
     .map((post,i) => ({ post, i, ts: parseFlexibleDate(post.date) }))
     .sort((a,b) => {
-      if(a.ts != null && b.ts != null) return b.ts - a.ts;
-      if(a.ts != null) return -1;
-      if(b.ts != null) return 1;
-      return a.i - b.i;
+      if(a.ts != null && b.ts != null) return b.ts - s => b.ts - a.ts; // latest first
+      return b.ts - a.ts;
     })
     .map(x => x.post);
 }
 
 function mediaThumbHtml(kind, src, index){
-  if(kind === "img") return `<div class="media-thumb" data-kind="img" data-src="${escapeHtml(src)}"><img src="${escapeHtml(src)}" loading="lazy" alt="ছবি ${index+1}"></div>`;
+  if(kind === "img") return `<div class="media-thumb" data-kind="img" data-src="${escapeHtml(src)}"><img src="${escapeHtml(src)}" loading="eager" fetchpriority="high" alt="ছবি ${index+1}"></div>`;
   return `<div class="media-thumb" data-kind="vid" data-src="${escapeHtml(src)}"><video src="${escapeHtml(src)}" muted playsinline preload="metadata"></video><div class="media-play">▶</div></div>`;
 }
 
@@ -118,9 +120,6 @@ function renderPost(post){
   </article>`;
 }
 
-/* ---------------------------------------------------------
-   SHELF
---------------------------------------------------------- */
 const shelf = document.getElementById("shelf");
 const postCache = {};
 
@@ -137,9 +136,6 @@ SUBJECTS.forEach(s => {
   shelf.appendChild(card);
 });
 
-/* ---------------------------------------------------------
-   PANEL
---------------------------------------------------------- */
 const panelOverlay = document.getElementById("panelOverlay");
 const panelTitle = document.getElementById("panelTitle");
 const panelKicker = document.getElementById("panelKicker");
@@ -161,7 +157,7 @@ async function openPanel(subject){
     if(!posts){
       const res = await fetch(subject.file, {cache:"no-store"});
       if(!res.ok) throw new Error("not found");
-      posts = sortPostsLatestFirst(parsePosts(await res.text()));
+      posts = parsePosts(await res.text());
       postCache[subject.name] = posts;
       const countEl = document.getElementById(subject.domId);
       if(countEl) countEl.textContent = posts.length ? `${posts.length} পোস্ট` : "";
@@ -172,32 +168,39 @@ async function openPanel(subject){
   }catch(err){
     panelPosts.innerHTML = "";
     panelEmpty.hidden = false;
-    panelEmpty.textContent = "data/" + subject.name + ".txt ফাইলটা এখনো পাওয়া যাচ্ছে না।";
+    panelEmpty.textContent = "ফাইলটি লোড করতে সমস্যা হচ্ছে।";
   }
 }
-function closePanel(){ panelOverlay.classList.remove("open"); document.body.style.overflow = ""; }
+
+function closePanel(){ 
+  panelOverlay.classList.remove("open"); 
+  document.body.style.overflow = ""; 
+  panelPosts.innerHTML = ""; // Clear old content to keep memory free and website fast
+}
+
 document.getElementById("panelClose").addEventListener("click", closePanel);
 panelOverlay.addEventListener("click", e => { if(e.target === panelOverlay) closePanel(); });
 
-/* ---------------------------------------------------------
-   LIGHTBOX — same click-to-expand for image, video, and audio
---------------------------------------------------------- */
 const lightbox = document.getElementById("lightbox");
 const lightboxStage = document.getElementById("lightboxStage");
+
 function openLightbox(kind, src){
   if(kind === "img") lightboxStage.innerHTML = `<img src="${escapeHtml(src)}" alt=""><a class="lightbox-original" href="${escapeHtml(src)}" target="_blank" rel="noopener">মূল ছবি নতুন ট্যাবে দেখো</a>`;
   else if(kind === "vid") lightboxStage.innerHTML = `<video src="${escapeHtml(src)}" controls autoplay playsinline></video>`;
   else if(kind === "aud") lightboxStage.innerHTML = `<audio src="${escapeHtml(src)}" controls autoplay></audio>`;
   lightbox.classList.add("open");
 }
+
 function closeLightbox(){ lightbox.classList.remove("open"); lightboxStage.innerHTML = ""; }
 document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
 lightbox.addEventListener("click", e => { if(e.target === lightbox) closeLightbox(); });
+
 document.addEventListener("keydown", e => {
   if(e.key !== "Escape") return;
   if(lightbox.classList.contains("open")) closeLightbox();
   else if(panelOverlay.classList.contains("open")) closePanel();
 });
+
 function bindMediaHandlers(scope){
   scope.querySelectorAll(".media-thumb").forEach(el => el.addEventListener("click", () => openLightbox(el.dataset.kind, el.dataset.src)));
   scope.querySelectorAll(".post-audio").forEach(el => el.addEventListener("click", () => openLightbox("aud", el.dataset.src)));
