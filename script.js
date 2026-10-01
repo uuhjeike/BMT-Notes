@@ -24,15 +24,18 @@ function escapeHtml(s){
   return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-// ১০০% কার্যকর লিংক কনভার্টার (GitHub Blob, Google Drive এবং সাধারণ ইমেজ লিংক হ্যান্ডেল করার জন্য)
+// গিটহাব ব্লব লিংক এবং অন্যান্য লিংক ১০০% নিখুঁতভাবে র-লিংকে রূপান্তর করার ফাংশন
+id="smartUrlConverter"
 function smartUrlConverter(url) {
   let cleanUrl = url.trim();
+  // Google Drive
   if (cleanUrl.includes("drive.google.com")) {
     let match = cleanUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
       return `https://drive.google.com/uc?export=view&id=${match[1]}`;
     }
   }
+  // GitHub Blob to Raw Converter (যেমন: /blob/main/Files/... -> /main/Files/...)
   if (cleanUrl.includes("github.com") && cleanUrl.includes("/blob/")) {
     return cleanUrl.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/");
   }
@@ -57,10 +60,14 @@ function parsePosts(raw){
     for(const line of lines){
       const m = line.match(/^(DATE|IMG|VID|AUD|DRIVE|LINK)\s*:\s*(.+)$/i);
       if(!m){
-        // যদি টেক্সটের ভেতরে সরাসরি গিটহাব বা ইমেজ লিংক থাকে, তবে তা স্বয়ংক্রিয়ভাবে ইমেজ হিসেবে ধরে নেবে
+        // যদি লাইনে সরাসরি গিটহাব ইমেজ লিংক বা ছবির এক্সটেনশন থাকে, তবে তাকে অটোমেটিক ইমেজ হিসেবে ধরা হবে
         let converted = smartUrlConverter(line);
-        if(line.match(/\.(png|jpg|jpeg|webp|gif)$/i) || (line.includes("githubusercontent.com") && !line.includes("/blob/"))) {
-          post.images.push(converted);
+        if(line.includes("github.com") || line.includes("githubusercontent.com") || line.match(/\.(png|jpg|jpeg|webp|gif)$/i)) {
+          if(line.match(/\.(png|jpg|jpeg|webp|gif)$/i) || line.includes("/Files/")) {
+            post.images.push(converted);
+          } else {
+            post.links.push({ url: converted, label: "গিটহাব লিংক", kind: "link" });
+          }
         } else if(line.startsWith("http://") || line.startsWith("https://")) {
           post.links.push({ url: converted, label: "লিংক", kind: "link" });
         } else {
@@ -94,7 +101,7 @@ function renderPost(post){
   const media = [...post.images.map(src=>({kind:"img",src})), ...post.videos.map(src=>({kind:"vid",src}))];
   const mediaHtml = media.length ? `<div class="post-media ${media.length===1?'single':''}">${media.map((m,i)=>mediaThumbHtml(m.kind,m.src,i)).join("")}</div>` : "";
   const audioHtml = post.audios.map(src=>`<div class="post-audio" data-src="${escapeHtml(src)}"><span class="post-audio-icon">▶</span><span class="post-audio-label">অডিও শুনতে ক্লিক করো</span></div>`).join("");
-  const linksHtml = post.links.length ? `<div class="post-links">${post.links.link || post.links.map(l=>`<a class="post-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${l.kind==="drive"?"📁":"🔗"} ${escapeHtml(l.label)}</a>`).join("")}</div>` : "";
+  const linksHtml = post.links.length ? `<div class="post-links">${post.links.map(l=>`<a class="post-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${l.kind==="drive"?"📁":"🔗"} ${escapeHtml(l.label)}</a>`).join("")}</div>` : "";
   
   return `<article class="post">
     ${post.date ? `<p class="post-date">${escapeHtml(post.date)}</p>` : ""}
