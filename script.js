@@ -4,7 +4,7 @@
 
 const SUBJECTS = [
   { name: "বাংলা-১", tab: "gold", icon: "📖", file: "বাংলা-১.txt" },
-  { name: "ইংরেজি-১", tab: "teal", icon: "✍️️", file: "ইংরেজি-১.txt" },
+  { name: "ইংরেজি-১", tab: "teal", icon: "✍", file: "ইংরেজি-১.txt" },
   { name: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১", tab: "rust", icon: "💻", file: "কম্পিউটার অফিস অ্যাপ্লিকেশন-১.txt" },
   { name: "ব্যবসায় গণিত ও পরিসংখ্যান", tab: "gold", icon: "🧮", file: "ব্যবসায় গণিত ও পরিসংখ্যান.txt" },
   { name: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১", tab: "teal", icon: "💰", file: "হিসাববিজ্ঞান নীতি ও প্রয়োগ-১.txt" },
@@ -24,6 +24,7 @@ function escapeHtml(s){
   return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
+// ১০০% কার্যকর লিংক কনভার্টার (GitHub Blob, Google Drive এবং সাধারণ ইমেজ লিংক হ্যান্ডেল করার জন্য)
 function smartUrlConverter(url) {
   let cleanUrl = url.trim();
   if (cleanUrl.includes("drive.google.com")) {
@@ -52,9 +53,22 @@ function parsePosts(raw){
     const lines = block.map(l=>l.trim()).filter(l=>l.length && !l.startsWith("#"));
     if(!lines.length) continue;
     const post = { date:"", text:[], images:[], videos:[], audios:[], links:[] };
+    
     for(const line of lines){
       const m = line.match(/^(DATE|IMG|VID|AUD|DRIVE|LINK)\s*:\s*(.+)$/i);
-      if(!m){ post.text.push(line); continue; }
+      if(!m){
+        // যদি টেক্সটের ভেতরে সরাসরি গিটহাব বা ইমেজ লিংক থাকে, তবে তা স্বয়ংক্রিয়ভাবে ইমেজ হিসেবে ধরে নেবে
+        let converted = smartUrlConverter(line);
+        if(line.match(/\.(png|jpg|jpeg|webp|gif)$/i) || (line.includes("githubusercontent.com") && !line.includes("/blob/"))) {
+          post.images.push(converted);
+        } else if(line.startsWith("http://") || line.startsWith("https://")) {
+          post.links.push({ url: converted, label: "লিংক", kind: "link" });
+        } else {
+          post.text.push(line);
+        }
+        continue;
+      }
+      
       const tag = m[1].toUpperCase(); const val = smartUrlConverter(m[2].trim());
       if(tag === "DATE") post.date = val;
       else if(tag === "IMG") post.images.push(val);
@@ -80,7 +94,8 @@ function renderPost(post){
   const media = [...post.images.map(src=>({kind:"img",src})), ...post.videos.map(src=>({kind:"vid",src}))];
   const mediaHtml = media.length ? `<div class="post-media ${media.length===1?'single':''}">${media.map((m,i)=>mediaThumbHtml(m.kind,m.src,i)).join("")}</div>` : "";
   const audioHtml = post.audios.map(src=>`<div class="post-audio" data-src="${escapeHtml(src)}"><span class="post-audio-icon">▶</span><span class="post-audio-label">অডিও শুনতে ক্লিক করো</span></div>`).join("");
-  const linksHtml = post.links.length ? `<div class="post-links">${post.links.map(l=>`<a class="post-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${l.kind==="drive"?"📁":"🔗"} ${escapeHtml(l.label)}</a>`).join("")}</div>` : "";
+  const linksHtml = post.links.length ? `<div class="post-links">${post.links.link || post.links.map(l=>`<a class="post-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${l.kind==="drive"?"📁":"🔗"} ${escapeHtml(l.label)}</a>`).join("")}</div>` : "";
+  
   return `<article class="post">
     ${post.date ? `<p class="post-date">${escapeHtml(post.date)}</p>` : ""}
     ${post.text ? `<p class="post-text">${escapeHtml(post.text)}</p>` : ""}
@@ -136,7 +151,7 @@ async function openPanel(subject){
   }catch(err){
     panelPosts.innerHTML = "";
     panelEmpty.hidden = false;
-    panelEmpty.textContent = "দুঃখিত, এই ফাইলের লিংকটি পাওয়া যায়নি। গিটহাবে ফাইলটি সঠিক নামে আছে কিনা চেক করুন।";
+    panelEmpty.textContent = "ফাইলটি লোড করতে সমস্যা হচ্ছে। সঠিক লিংকে ফাইল আছে কিনা চেক করুন।";
   }
 }
 
