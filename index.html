@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMT Notes — হোমওয়ার্ক, ক্লাসওয়ার্ক ও নোট</title>
+<meta name="description" content="BMT Notes — সিলেবাসের সব বিষয়ের হোমওয়ার্ক, ক্লাসওয়ার্ক ও নোট একসাথে, বন্ধুদের সাথে শেয়ার করার জন্য।">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="#top" class="brand">BMT <span>Notes</span></a>
+  <div class="nav-links">
+    <a href="#subjects">বিষয়সমূহ</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <p class="hero-kicker">সিলেবাসের নোটের জন্য বিশেষভাবে তৈরি</p>
+  <h1>তোমার সব নোট,<br><span>এক জায়গায়।</span></h1>
+  <p class="hero-sub">হোমওয়ার্ক, ক্লাসওয়ার্ক আর নোট — একটা টেক্সট ফাইলে লিখলেই এখানে নিজে থেকে যোগ হয়ে যাবে। বন্ধুর সাথে শেয়ার করো, একসাথে এগিয়ে যাও।</p>
+  <div class="hero-actions">
+    <a href="#subjects" class="btn btn-primary">বিষয় দেখো</a>
+  </div>
+</header>
+
+<main>
+<!-- ===== SUBJECTS ===== -->
+<section class="section" id="subjects">
+  <div class="section-head">
+    <h2>বিষয়সমূহ</h2>
+    <p>যেকোনো বিষয়ে ক্লিক করলে তার সব পোস্ট খুলবে</p>
+  </div>
+  <div class="grid" id="shelf"></div>
+</section>
+</main>
+
+<footer class="footer">
+  <p>BMT Notes — বানানো হয়েছে যত্ন করে, নিজেদের পড়াশোনার জন্য।</p>
+</footer>
+
+<!-- ===== FEED PANEL ===== -->
+<div class="panel-overlay" id="panelOverlay">
+  <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+    <button class="panel-close" id="panelClose" aria-label="বন্ধ করো">✕</button>
+    <div class="panel-body" id="panelBody">
+      <p class="panel-kicker" id="panelKicker">বিষয়</p>
+      <h2 id="panelTitle">—</h2>
+      <div class="panel-posts" id="panelPosts"></div>
+      <p class="panel-empty" id="panelEmpty" hidden>এখনো কোনো পোস্ট নেই। প্রথম হোমওয়ার্কটা এখানেই যোগ হবে।</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="বন্ধ করো">✕</button>
+  <div class="lightbox-stage" id="lightboxStage"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
